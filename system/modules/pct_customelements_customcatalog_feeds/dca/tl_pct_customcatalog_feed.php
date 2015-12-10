@@ -3,7 +3,7 @@
 /**
  * Contao Open Source CMS
  * 
- * Copyright (C) 2005-2013 Leo Feyer
+ * Copyright (C) 2005-2015 Leo Feyer
  * 
  * @copyright	Tim Gatzky 2013, Premium Contao Webworks, Premium Contao Themes
  * @author		Tim Gatzky <info@tim-gatzky.de>
@@ -112,8 +112,9 @@ $GLOBALS['TL_DCA'][$objDcaHelper->getTable()] = array
 $arrPalettes = array
 (
 	'title_legend'				=> array('title','alias','language'),
-	'configs_legend'			=> array('configs'),
-	'config_legend'				=> array('format','source','maxItems','feedBase','description'),
+	'configs_legend'			=> array('configs','jumpTo'),
+	'export_legend'				=> array('titleField','publishedField','descriptionField','authorField','imageField'),
+	'config_legend'				=> array('format','maxItems','feedBase','description'),
 );
 $GLOBALS['TL_DCA'][$objDcaHelper->getTable()]['palettes']['default'] = $objDcaHelper->generatePalettes($arrPalettes);
 
@@ -177,6 +178,14 @@ $objDcaHelper->addFields(array
 		'eval'                    => array('multiple'=>true, 'mandatory'=>true),
 		'sql'                     => "blob NULL"
 	),
+	'jumpTo' => array
+	(
+		'label'           		=> &$GLOBALS['TL_LANG'][$objDcaHelper->getTable()]['jumpTo'],
+		'exclude'         		=> true,
+		'inputType'       		=> 'pageTree',
+		'eval'            		=> array('tl_class'=>''),
+		'sql'			  		=> "int(10) NOT NULL default '0'",
+	),
 	'format' => array
 	(
 		'label'                   => &$GLOBALS['TL_LANG']['tl_news_feed']['format'],
@@ -185,16 +194,6 @@ $objDcaHelper->addFields(array
 		'filter'                  => true,
 		'inputType'               => 'select',
 		'options'                 => array('rss'=>'RSS 2.0', 'atom'=>'Atom'),
-		'eval'                    => array('tl_class'=>'w50'),
-		'sql'                     => "varchar(32) NOT NULL default ''"
-	),
-	'source' => array
-	(
-		'label'                   => &$GLOBALS['TL_LANG']['tl_news_feed']['source'],
-		'default'                 => 'source_teaser',
-		'exclude'                 => true,
-		'inputType'               => 'select',
-		'options_callback'        => array('PCT\CustomCatalog\Feeds\TableCustomCatalogFeed', 'getTextAttributes'),
 		'eval'                    => array('tl_class'=>'w50'),
 		'sql'                     => "varchar(32) NOT NULL default ''"
 	),
@@ -225,5 +224,51 @@ $objDcaHelper->addFields(array
 		'inputType'               => 'textarea',
 		'eval'                    => array('style'=>'height:60px', 'tl_class'=>'clr'),
 		'sql'                     => "text NULL"
-	)
+	),
+	// export settings
+	'titleField' => array
+	(
+		'label'                   => &$GLOBALS['TL_LANG'][$objDcaHelper->getTable()]['titleField'],
+		'exclude'                 => true,
+		'inputType'               => 'select',
+		'options_callback'        => array('PCT\CustomCatalog\Feeds\TableCustomCatalogFeed', 'getTextAttributes'),
+		'eval'                    => array('tl_class'=>'w50','includeBlankOption'=>true,'chosen'=>true),
+		'sql'                     => "int(10) NOT NULL default '0'"
+	),
+	'descriptionField' => array
+	(
+		'label'                   => &$GLOBALS['TL_LANG'][$objDcaHelper->getTable()]['descriptionField'],
+		'exclude'                 => true,
+		'inputType'               => 'select',
+		'options_callback'        => array('PCT\CustomCatalog\Feeds\TableCustomCatalogFeed', 'getTextAttributes'),
+		'eval'                    => array('tl_class'=>'w50','includeBlankOption'=>true,'chosen'=>true),
+		'sql'                     => "int(10) NOT NULL default '0'"
+	),
+	'publishedField' => array
+	(
+		'label'                   => &$GLOBALS['TL_LANG'][$objDcaHelper->getTable()]['publishedField'],
+		'exclude'                 => true,
+		'inputType'               => 'select',
+		'options_callback'        => array('PCT\CustomCatalog\Feeds\TableCustomCatalogFeed', 'getTimestampAttributes'),
+		'eval'                    => array('tl_class'=>'w50','includeBlankOption'=>true,'chosen'=>true),
+		'sql'                     => "int(10) NOT NULL default '0'"
+	),
+	'authorField' => array
+	(
+		'label'                   => &$GLOBALS['TL_LANG'][$objDcaHelper->getTable()]['authorField'],
+		'exclude'                 => true,
+		'inputType'               => 'select',
+		'options_callback'        => array('PCT\CustomCatalog\Feeds\TableCustomCatalogFeed', 'getTextAttributes'),
+		'eval'                    => array('tl_class'=>'w50','includeBlankOption'=>true,'chosen'=>true),
+		'sql'                     => "int(10) NOT NULL default '0'"
+	),
+	'imageField' => array
+	(
+		'label'                   => &$GLOBALS['TL_LANG'][$objDcaHelper->getTable()]['imageField'],
+		'exclude'                 => true,
+		'inputType'               => 'select',
+		'options_callback'        => array('PCT\CustomCatalog\Feeds\TableCustomCatalogFeed', 'getImageAttributes'),
+		'eval'                    => array('tl_class'=>'w50','includeBlankOption'=>true,'chosen'=>true),
+		'sql'                     => "int(10) NOT NULL default '0'"
+	),
 ));

@@ -28,7 +28,8 @@ ClassLoader::addNamespaces(array
 ClassLoader::addClasses(array
 (
 	'PCT\CustomCatalog\Feeds'							=> 'system/modules/pct_customelements_customcatalog_feeds/PCT/CustomCatalog/Feeds.php',
+	'PCT\CustomCatalog\Models\FeedModel'				=> 'system/modules/pct_customelements_customcatalog_feeds/PCT/CustomCatalog/Models/FeedModel.php',
 	'PCT\CustomCatalog\Feeds\TableCustomCatalog'		=> 'system/modules/pct_customelements_customcatalog_feeds/PCT/CustomCatalog/Feeds/TableCustomCatalog.php',
 	'PCT\CustomCatalog\Feeds\TableCustomCatalogFeed'	=> 'system/modules/pct_customelements_customcatalog_feeds/PCT/CustomCatalog/Feeds/TableCustomCatalogFeed.php',
-
+	'PCT\CustomCatalog\Feeds\TableLayout'				=> 'system/modules/pct_customelements_customcatalog_feeds/PCT/CustomCatalog/Feeds/TableLayout.php',
 ));

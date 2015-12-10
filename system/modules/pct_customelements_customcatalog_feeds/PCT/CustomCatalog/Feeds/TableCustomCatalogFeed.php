@@ -70,12 +70,11 @@ class TableCustomCatalogFeed extends \Backend
 			return;
 		}
 
-		$this->import('News');
 		$objFeeds = new \PCT\CustomCatalog\Feeds;
 
 		foreach ($session as $id)
 		{
-			$objFeeds->generateFeedsByArchive($id);
+			$objFeeds->generateFeedsByConfig($id);
 		}
 
 		$this->import('Automator');
@@ -132,15 +131,20 @@ class TableCustomCatalogFeed extends \Backend
 	
 	
 	/**
-	 * Return all attributes
+	 * Return all text attributes
 	 * @param object
 	 * @return array
 	 */
 	public function getTextAttributes($objDC)
 	{
-		$arrTypes = array('text','textarea');
+		$options = array
+		(
+			'column' 	=> 'type',
+			'operation' => 'FIND_IN_SET',
+			'value'		=> 	array('text','textarea')
+		);
 		
-		$objResult = \PCT\CustomElements\Core\AttributeFactory::fetchMultipleByCustomElement($objDC->activeRecord->pid);
+		$objResult = \PCT\CustomElements\Core\AttributeFactory::fetchMultipleByCustomElement($objDC->activeRecord->pid,$options);
 		if($objResult->numRows < 1)
 		{
 			return array();
@@ -149,14 +153,70 @@ class TableCustomCatalogFeed extends \Backend
 		$arrReturn = array();
 		while($objResult->next())
 		{
-			if(!in_array($objResult->type, $arrTypes))
-			{
-				continue;
-			}
-			
 			$arrReturn[ $objResult->id ] = $objResult->title . ' ['.$objResult->type.']';
 		}
 		
 		return $arrReturn;
 	}
+	
+	
+	/**
+	 * Return all timestamp attributes
+	 * @param object
+	 * @return array
+	 */
+	public function getTimestampAttributes($objDC)
+	{
+		$options = array
+		(
+			'column' 	=> 'type',
+			'operation' => 'FIND_IN_SET',
+			'value'		=> 	array('text','timestamp')
+		);
+		
+		$objResult = \PCT\CustomElements\Core\AttributeFactory::fetchMultipleByCustomElement($objDC->activeRecord->pid,$options);
+		if($objResult->numRows < 1)
+		{
+			return array();
+		}
+		
+		$arrReturn = array();
+		while($objResult->next())
+		{
+			$arrReturn[ $objResult->id ] = $objResult->title . ' ['.$objResult->type.']';
+		}
+		
+		return $arrReturn;
+	}
+
+
+	/**
+	 * Return all image attributes
+	 * @param object
+	 * @return array
+	 */
+	public function getImageAttributes($objDC)
+	{
+		$options = array
+		(
+			'column' 	=> 'type',
+			'operation' => 'FIND_IN_SET',
+			'value'		=> 	array('image')
+		);
+		
+		$objResult = \PCT\CustomElements\Core\AttributeFactory::fetchMultipleByCustomElement($objDC->activeRecord->pid,$options);
+		if($objResult->numRows < 1)
+		{
+			return array();
+		}
+		
+		$arrReturn = array();
+		while($objResult->next())
+		{
+			$arrReturn[ $objResult->id ] = $objResult->title . ' ['.$objResult->type.']';
+		}
+		
+		return $arrReturn;
+	}
+
 }

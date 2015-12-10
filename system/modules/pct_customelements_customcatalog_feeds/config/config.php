@@ -17,6 +17,11 @@
 $GLOBALS['BE_MOD']['content']['pct_customelements']['tables'][] = 'tl_pct_customcatalog_feed';
 
 /**
+ * Register the model classes
+ */
+$GLOBALS['TL_MODELS']['tl_pct_customcatalog_feed'] = 'PCT\CustomCatalog\Models\FeedModel';
+
+/**
  * Cron jobs
  */
 $GLOBALS['TL_CRON']['daily'][] = array('PCT\CustomCatalog\Feeds', 'generateFeeds');
@@ -26,3 +31,9 @@ $GLOBALS['TL_CRON']['daily'][] = array('PCT\CustomCatalog\Feeds', 'generateFeeds
  */
 $GLOBALS['TL_PERMISSIONS'][] = 'customcatalogfeeds';
 $GLOBALS['TL_PERMISSIONS'][] = 'customcatalogfeedp';
+
+/**
+ * Hooks
+ */
+$GLOBALS['TL_HOOKS']['removeOldFeeds'][] 	= array('PCT\CustomCatalog\Feeds', 'purgeOldFeeds');
+$GLOBALS['TL_HOOKS']['generateXmlFiles'][] 	= array('PCT\CustomCatalog\Feeds', 'generateFeeds');
