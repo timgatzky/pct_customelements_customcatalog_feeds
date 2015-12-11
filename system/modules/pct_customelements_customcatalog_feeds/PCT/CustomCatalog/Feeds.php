@@ -128,7 +128,7 @@ class Feeds extends \Frontend
 		$objFeed->published = $arrFeed['tstamp'];
 		
 		$objJumpTo = \PageModel::findByPk($arrFeed['jumpTo']);
-			
+
 		// find the source attributes
 		$objDescriptionAttribute 	= \PCT\CustomElements\Core\AttributeFactory::fetchById($arrFeed['descriptionField']);
 		$objPublishedAttribute 		= \PCT\CustomElements\Core\AttributeFactory::fetchById($arrFeed['publishedField']);

@@ -183,7 +183,7 @@ $objDcaHelper->addFields(array
 		'label'           		=> &$GLOBALS['TL_LANG'][$objDcaHelper->getTable()]['jumpTo'],
 		'exclude'         		=> true,
 		'inputType'       		=> 'pageTree',
-		'eval'            		=> array('tl_class'=>''),
+		'eval'            		=> array('tl_class'=>'','mandatory'=>true),
 		'sql'			  		=> "int(10) NOT NULL default '0'",
 	),
 	'format' => array
