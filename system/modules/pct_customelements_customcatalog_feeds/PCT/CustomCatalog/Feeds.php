@@ -149,7 +149,11 @@ class Feeds extends \Frontend
 		foreach($arrConfigs as $config_id)
 		{
 			$objCC = CustomCatalogFactory::findById($config_id);
-		
+			if($objCC === null)
+			{
+				continue;
+			}
+			
 			// set visibles to source attribute only
 			$objCC->setVisibles(array_filter(array_values($arrFields)));
 			
