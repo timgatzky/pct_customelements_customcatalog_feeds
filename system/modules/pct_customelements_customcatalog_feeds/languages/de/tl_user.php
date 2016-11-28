@@ -13,6 +13,8 @@
  * permanent text corrections which are update-safe. 
  */
 
+$GLOBALS['TL_LANG']['tl_user']['customcatalogfeeds_legend'] = 'CustomCatalog Feeds';
+
 $GLOBALS['TL_LANG']['tl_user']['customcatalogfeeds'][0] = 'CustomCatalog Feeds';
 $GLOBALS['TL_LANG']['tl_user']['customcatalogfeeds'][1] = 'Wählen Sie die Feeds aus';
 $GLOBALS['TL_LANG']['tl_user']['customcatalogfeedp'][0] = 'CustomCatalog Feeds Rechte';
