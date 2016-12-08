@@ -1,3 +1,6 @@
+### 1.0.4
+Update: Missing translations
+
 ### 1.0.3
 Fixed: Added missing tl_user, tl_user_group columns
 
