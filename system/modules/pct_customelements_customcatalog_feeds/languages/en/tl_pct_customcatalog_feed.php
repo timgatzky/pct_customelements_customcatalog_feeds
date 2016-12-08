@@ -29,3 +29,4 @@ $GLOBALS['TL_LANG']['tl_pct_customcatalog_feed']['authorField'][1] 		= 'Please c
  */
 $GLOBALS['TL_LANG']['tl_pct_customcatalog_feed']['configs_legend'] 	= 'Configurations';
 $GLOBALS['TL_LANG']['tl_pct_customcatalog_feed']['config_legend'] 	= 'Feed settings';
+$GLOBALS['TL_LANG']['tl_pct_customcatalog_feed']['export_legend'] 	= 'Export settings';
