@@ -47,7 +47,7 @@ $GLOBALS['TL_DCA'][$objDcaHelper->getTable()] = array
 				'alias' => 'index'
 			)
 		),
-		'backlink' => \System::getReferer(),
+		'backlink' => \Controller::getReferer(),
 	),
 	// List
 	'list' => array
