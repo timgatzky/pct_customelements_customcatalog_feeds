@@ -144,16 +144,16 @@ class TableCustomCatalogFeed extends \Backend
 			'value'		=> 	array('text','textarea')
 		);
 		
-		$objResult = \PCT\CustomElements\Core\AttributeFactory::fetchMultipleByCustomElement($objDC->activeRecord->pid,$options);
-		if($objResult->numRows < 1)
+		$objResults = \PCT\CustomElements\Core\AttributeFactory::fetchMultipleByCustomElement($objDC->activeRecord->pid,$options);
+		if($objResults === null)
 		{
 			return array();
 		}
 		
 		$arrReturn = array();
-		while($objResult->next())
+		foreach($objResults as $objResult)
 		{
-			$arrReturn[ $objResult->id ] = $objResult->title . ' ['.$objResult->type.']';
+			$arrReturn[ $objResult->id ] = $objResult->title . ' ['.$objResult->type.' id:'.$objResult->id.']';
 		}
 		
 		return $arrReturn;
@@ -174,16 +174,16 @@ class TableCustomCatalogFeed extends \Backend
 			'value'		=> 	array('text','timestamp')
 		);
 		
-		$objResult = \PCT\CustomElements\Core\AttributeFactory::fetchMultipleByCustomElement($objDC->activeRecord->pid,$options);
-		if($objResult->numRows < 1)
+		$objResults = \PCT\CustomElements\Core\AttributeFactory::fetchMultipleByCustomElement($objDC->activeRecord->pid,$options);
+		if($objResults === null)
 		{
 			return array();
 		}
 		
 		$arrReturn = array();
-		while($objResult->next())
+		foreach($objResults as $objResult)
 		{
-			$arrReturn[ $objResult->id ] = $objResult->title . ' ['.$objResult->type.']';
+			$arrReturn[ $objResult->id ] = $objResult->title . ' ['.$objResult->type.' id:'.$objResult->id.']';
 		}
 		
 		return $arrReturn;
@@ -204,16 +204,16 @@ class TableCustomCatalogFeed extends \Backend
 			'value'		=> 	array('image')
 		);
 		
-		$objResult = \PCT\CustomElements\Core\AttributeFactory::fetchMultipleByCustomElement($objDC->activeRecord->pid,$options);
-		if($objResult->numRows < 1)
+		$objResults = \PCT\CustomElements\Core\AttributeFactory::fetchMultipleByCustomElement($objDC->activeRecord->pid,$options);
+		if($objResults === null)
 		{
 			return array();
 		}
 		
 		$arrReturn = array();
-		while($objResult->next())
+		foreach($objResults as $objResult)
 		{
-			$arrReturn[ $objResult->id ] = $objResult->title . ' ['.$objResult->type.']';
+			$arrReturn[ $objResult->id ] = $objResult->title . ' ['.$objResult->type.' id:'.$objResult->id.']';
 		}
 		
 		return $arrReturn;
