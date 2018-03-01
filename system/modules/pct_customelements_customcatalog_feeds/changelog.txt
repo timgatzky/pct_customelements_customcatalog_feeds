@@ -1,4 +1,4 @@
-### 1.0.5
+### 1.1.0
 Update: Use models instead of database result objects (#2)
 Update: Simplify the dca files (#1)
 
