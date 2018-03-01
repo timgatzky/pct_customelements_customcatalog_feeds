@@ -13,19 +13,15 @@
  * @link		http://contao.org
  */
 
-$objDcaHelper = \PCT\CustomElements\Plugins\CustomCatalog\Helper\DcaHelper::getInstance()->setTable('tl_layout');
-
 /**
  * Palettes
  */
-$arrPalettes = $objDcaHelper->getAllPalettesAsArray('default');
-$arrPalettes['default']['feed_legend:hide'][] = 'customcatalogfeeds';
-$GLOBALS['TL_DCA'][$objDcaHelper->getTable()]['palettes']['default'] = $objDcaHelper->generatePalettes($arrPalettes['default']);
+$GLOBALS['TL_DCA']['tl_layout']['palettes']['default'] = str_replace('newsfeeds', 'newsfeeds,customcatalogfeeds', $GLOBALS['TL_DCA']['tl_layout']['palettes']['default']);
 
 /**
  * Fields
  */
-$objDcaHelper->addField('customcatalogfeeds',array
+$GLOBALS['TL_DCA']['tl_layout']['fields']['customcatalogfeeds'] = array
 (
 	'label'                   => &$GLOBALS['TL_LANG']['tl_layout']['customcatalogfeeds'],
 	'exclude'                 => true,
@@ -33,5 +29,5 @@ $objDcaHelper->addField('customcatalogfeeds',array
 	'options_callback'        => array('PCT\CustomCatalog\Feeds\TableLayout', 'getAllFeeds'),
 	'eval'                    => array('multiple'=>true),
 	'sql'                     => "blob NULL"	
-));
+);
 
