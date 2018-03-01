@@ -137,25 +137,14 @@ class TableCustomCatalogFeed extends \Backend
 	 */
 	public function getTextAttributes($objDC)
 	{
-		$options = array
-		(
-			'column' 	=> 'type',
-			'operation' => 'FIND_IN_SET',
-			'value'		=> 	array('text','textarea')
-		);
-		
-		$objResults = \PCT\CustomElements\Core\AttributeFactory::fetchMultipleByCustomElement($objDC->activeRecord->pid,$options);
-		if($objResults === null)
-		{
-			return array();
-		}
-		
+		$arrTypes = array('text','textarea');
+		$objDatabase = \Database::getInstance();
+		$objResult = $objDatabase->prepare("SELECT * FROM tl_pct_customelement_attribute WHERE pid IN(SELECT id FROM tl_pct_customelement_group WHERE pid=?) AND ".$objDatabase->findInSet('type',$arrTypes))->execute($objDC->activeRecord->pid);
 		$arrReturn = array();
-		foreach($objResults as $objResult)
+		while($objResult->next())
 		{
 			$arrReturn[ $objResult->id ] = $objResult->title . ' ['.$objResult->type.' id:'.$objResult->id.']';
 		}
-		
 		return $arrReturn;
 	}
 	
@@ -167,25 +156,14 @@ class TableCustomCatalogFeed extends \Backend
 	 */
 	public function getTimestampAttributes($objDC)
 	{
-		$options = array
-		(
-			'column' 	=> 'type',
-			'operation' => 'FIND_IN_SET',
-			'value'		=> 	array('text','timestamp')
-		);
-		
-		$objResults = \PCT\CustomElements\Core\AttributeFactory::fetchMultipleByCustomElement($objDC->activeRecord->pid,$options);
-		if($objResults === null)
-		{
-			return array();
-		}
-		
+		$arrTypes = array('text','timestamp');
+		$objDatabase = \Database::getInstance();
+		$objResult = $objDatabase->prepare("SELECT * FROM tl_pct_customelement_attribute WHERE pid IN(SELECT id FROM tl_pct_customelement_group WHERE pid=?) AND ".$objDatabase->findInSet('type',$arrTypes))->execute($objDC->activeRecord->pid);
 		$arrReturn = array();
-		foreach($objResults as $objResult)
+		while($objResult->next())
 		{
 			$arrReturn[ $objResult->id ] = $objResult->title . ' ['.$objResult->type.' id:'.$objResult->id.']';
 		}
-		
 		return $arrReturn;
 	}
 
@@ -197,25 +175,14 @@ class TableCustomCatalogFeed extends \Backend
 	 */
 	public function getImageAttributes($objDC)
 	{
-		$options = array
-		(
-			'column' 	=> 'type',
-			'operation' => 'FIND_IN_SET',
-			'value'		=> 	array('image')
-		);
-		
-		$objResults = \PCT\CustomElements\Core\AttributeFactory::fetchMultipleByCustomElement($objDC->activeRecord->pid,$options);
-		if($objResults === null)
-		{
-			return array();
-		}
-		
+		$arrTypes = array('image');
+		$objDatabase = \Database::getInstance();
+		$objResult = $objDatabase->prepare("SELECT * FROM tl_pct_customelement_attribute WHERE pid IN(SELECT id FROM tl_pct_customelement_group WHERE pid=?) AND ".$objDatabase->findInSet('type',$arrTypes))->execute($objDC->activeRecord->pid);
 		$arrReturn = array();
-		foreach($objResults as $objResult)
+		while($objResult->next())
 		{
 			$arrReturn[ $objResult->id ] = $objResult->title . ' ['.$objResult->type.' id:'.$objResult->id.']';
 		}
-		
 		return $arrReturn;
 	}
 

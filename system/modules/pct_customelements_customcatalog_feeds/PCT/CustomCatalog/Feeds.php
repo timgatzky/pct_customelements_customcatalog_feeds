@@ -111,10 +111,11 @@ class Feeds extends \Frontend
 	{
 		$arrConfigs = deserialize($arrFeed['configs']);
 
-		if (!is_array($arrConfigs) || count($arrConfigs) < 1)
+		if(!is_array($arrConfigs) || empty($arrConfigs))
 		{
 			return;
 		}
+		
 		
 		$strType = ($arrFeed['format'] == 'atom') ? 'generateAtom' : 'generateRss';
 		$strLink = $arrFeed['feedBase'] ?: \Environment::get('base');
@@ -154,6 +155,11 @@ class Feeds extends \Frontend
 				continue;
 			}
 			
+			// simulate a list module
+			$objModule = new \StdClass;
+			$objModule->customcatalog_filter_showAll = true;
+			$objCC->setOrigin($objModule);
+			
 			// set visibles to source attribute only
 			$objCC->setVisibles(array_filter(array_values($arrFields)));
 			
@@ -164,7 +170,6 @@ class Feeds extends \Frontend
 			
 			// fetch the entries
 			$objEntries = $objCC->prepare();
-			
 			if($objEntries->numRows < 1)
 			{
 				continue;
