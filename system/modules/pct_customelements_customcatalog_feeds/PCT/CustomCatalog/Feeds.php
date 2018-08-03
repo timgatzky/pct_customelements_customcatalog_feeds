@@ -200,8 +200,14 @@ class Feeds extends \Frontend
 			}
 		}
 		
+		$path = 'share';
+		if(version_compare(VERSION, '4.4','>='))
+		{
+			$path = 'web/share';
+		}
+		
 		// create file
-		\File::putContent('share/' . $strFile . '.xml', $this->replaceInsertTags($objFeed->$strType(), false));
+		\File::putContent($path.'/'.$strFile . '.xml', $this->replaceInsertTags($objFeed->$strType(), false));
 	}
 	
 	
