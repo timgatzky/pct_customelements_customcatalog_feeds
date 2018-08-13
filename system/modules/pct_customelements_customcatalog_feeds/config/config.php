@@ -37,3 +37,4 @@ $GLOBALS['TL_PERMISSIONS'][] = 'customcatalogfeedp';
  */
 $GLOBALS['TL_HOOKS']['removeOldFeeds'][] 	= array('PCT\CustomCatalog\Feeds', 'purgeOldFeeds');
 $GLOBALS['TL_HOOKS']['generateXmlFiles'][] 	= array('PCT\CustomCatalog\Feeds', 'generateFeeds');
+$GLOBALS['TL_HOOKS']['generatePage'][] 	= array('PCT\CustomCatalog\Feeds', 'addFeedLinkToPage');

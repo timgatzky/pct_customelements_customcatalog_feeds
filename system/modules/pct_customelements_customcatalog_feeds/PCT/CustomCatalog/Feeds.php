@@ -30,6 +30,38 @@ use PCT\CustomElements\Plugins\CustomCatalog\Core\CustomCatalogFactory as Custom
 class Feeds extends \Frontend
 {
 	/**
+	 * Add the feed link to the page head
+	 * @param object
+	 * @param object
+	 * @param object
+	 * called from generatePage Hook
+	 */
+	public function addFeedLinkToPage($objPage, $objLayout, $objPageRegular)
+	{
+		$arrFeeds = deserialize($objLayout->customcatalogfeeds);
+		
+		// Add newsfeeds
+		if (!empty($arrFeeds) && is_array($arrFeeds))
+		{
+			$objFeeds = FeedModel::findByIds($arrFeeds);
+			if ($objFeeds !== null)
+			{
+				$path = 'share';
+				if(version_compare(VERSION, '4.4','>='))
+				{
+					$path = 'web/share';
+				}
+
+				while($objFeeds->next())
+				{
+					$GLOBALS['TL_HEAD'][] = \Template::generateFeedTag(($objFeeds->feedBase ?: \Environment::get('base')) . $path. '/' . $objFeeds->alias . '.xml', $objFeeds->format, $objFeeds->title, $blnXhtml) . "\n";
+				}
+			}
+		}
+	}
+	
+	
+	/**
 	 * Update a particular RSS feed
 	 * @param integer
 	 */
