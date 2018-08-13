@@ -179,6 +179,10 @@ class Feeds extends \Frontend
 			{
 				$objItem = new \FeedItem();
 				$objItem->title = $objEntries->{$arrFields['title']};
+				if(version_compare(VERSION, '4.4','>='))
+				{
+					$strLink = '';
+				}
 				$objItem->link = $strLink.$objCC->generateDetailsUrl($objEntries,$objJumpTo);
 				$objItem->published = $objEntries->{$arrFields['published']} ?: $objEntries->tstamp;
 				$objItem->author = $objEntries->{$arrFields['author']} ?: '';
