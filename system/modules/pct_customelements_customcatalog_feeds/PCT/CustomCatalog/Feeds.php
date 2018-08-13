@@ -54,7 +54,7 @@ class Feeds extends \Frontend
 		else
 		{
 			$this->generateFiles($objFeed->row());
-			$this->log('Generated news feed "' . $objFeed->feedName . '.xml"', __METHOD__, TL_CRON);
+			$this->log('Generated CustomCatalog feed "' . $objFeed->feedName . '.xml"', __METHOD__, TL_CRON);
 		}
 	}
 
@@ -75,7 +75,7 @@ class Feeds extends \Frontend
 			{
 				$objFeed->feedName = $objFeed->alias ?: 'customcatalog' . $objFeed->id;
 				$this->generateFiles($objFeed->row());
-				$this->log('Generated news feed "' . $objFeed->feedName . '.xml"', __METHOD__, TL_CRON);
+				$this->log('Generated CustomCatalog feed "' . $objFeed->feedName . '.xml"', __METHOD__, TL_CRON);
 			}
 		}
 	}
