@@ -47,11 +47,7 @@ class Feeds extends \Frontend
 			if ($objFeeds !== null)
 			{
 				$path = 'share';
-				if(version_compare(VERSION, '4.4','>='))
-				{
-					$path = 'web/share';
-				}
-
+				
 				while($objFeeds->next())
 				{
 					$GLOBALS['TL_HEAD'][] = \Template::generateFeedTag(($objFeeds->feedBase ?: \Environment::get('base')) . $path. '/' . $objFeeds->alias . '.xml', $objFeeds->format, $objFeeds->title, $blnXhtml) . "\n";
