@@ -13,9 +13,12 @@
  * @link		http://contao.org
  */
 
-$this->loadLanguageFile('tl_news_archive');
+use Contao\ArrayUtil;
+use Contao\System;
 
-array_insert($GLOBALS['TL_DCA']['tl_pct_customcatalog']['list']['global_operations'],0,array
+System::loadLanguageFile('tl_news_feed');
+
+ArrayUtil::arrayInsert($GLOBALS['TL_DCA']['tl_pct_customcatalog']['list']['global_operations'],0,array
 (
 	'feeds' => array
 	(

@@ -18,15 +18,22 @@
  */
 namespace PCT\CustomCatalog\Feeds;
 
+use Contao\Backend;
+use Contao\BackendUser;
+use Contao\StringUtil;
+
 /**
  * Class file
  */
-class TableCustomCatalog extends \Backend
+class TableCustomCatalog extends Backend
 {
+	/**
+	 * Import the back end user object
+	 */
 	public function __construct()
 	{
 		parent::__construct();
-		$this->import('BackendUser','User');
+		$this->import(BackendUser::class, 'User');	
 	}
 	
 	/**
@@ -42,6 +49,6 @@ class TableCustomCatalog extends \Backend
 	 */
 	public function manageFeedsButton($href, $label, $title, $class, $attributes)
 	{
-		return ($this->User->isAdmin || !empty($this->User->newsfeeds) || $this->User->hasAccess('create', 'customcatalogfeedp')) ? '<a href="'.$this->addToUrl($href).'" class="'.$class.'" title="'.specialchars($title).'"'.$attributes.'>'.$label.'</a> ' : '';
+		return ($this->User->isAdmin || !empty($this->User->newsfeeds) || $this->User->hasAccess('create', 'customcatalogfeedp')) ? '<a href="'.$this->addToUrl($href).'" class="'.$class.'" title="'.StringUtil::specialchars($title).'"'.$attributes.'>'.$label.'</a> ' : '';
 	}
 }

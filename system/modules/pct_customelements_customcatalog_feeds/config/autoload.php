@@ -13,23 +13,22 @@
  * @link		http://contao.org
  */
 
-/**
- * Register the namespaces
- */
-ClassLoader::addNamespaces(array
-(
-	'PCT\CustomCatalog',
-));
 
+// path relative from composer directory
+$path = \Contao\System::getContainer()->getParameter('kernel.project_dir').'/vendor/composer/../../system/modules/pct_autogrid';
 
 /**
  * Register the classes
  */
-ClassLoader::addClasses(array
+$classMap = array
 (
-	'PCT\CustomCatalog\Feeds'							=> 'system/modules/pct_customelements_customcatalog_feeds/PCT/CustomCatalog/Feeds.php',
-	'PCT\CustomCatalog\Models\FeedModel'				=> 'system/modules/pct_customelements_customcatalog_feeds/PCT/CustomCatalog/Models/FeedModel.php',
-	'PCT\CustomCatalog\Feeds\TableCustomCatalog'		=> 'system/modules/pct_customelements_customcatalog_feeds/PCT/CustomCatalog/Feeds/TableCustomCatalog.php',
-	'PCT\CustomCatalog\Feeds\TableCustomCatalogFeed'	=> 'system/modules/pct_customelements_customcatalog_feeds/PCT/CustomCatalog/Feeds/TableCustomCatalogFeed.php',
-	'PCT\CustomCatalog\Feeds\TableLayout'				=> 'system/modules/pct_customelements_customcatalog_feeds/PCT/CustomCatalog/Feeds/TableLayout.php',
-));
+	'PCT\CustomCatalog\Feeds'							=> $path.'/PCT/CustomCatalog/Feeds.php',
+	'PCT\CustomCatalog\Models\FeedModel'				=> $path.'/PCT/CustomCatalog/Models/FeedModel.php',
+	'PCT\CustomCatalog\Feeds\TableCustomCatalog'		=> $path.'/PCT/CustomCatalog/Feeds/TableCustomCatalog.php',
+	'PCT\CustomCatalog\Feeds\TableCustomCatalogFeed'	=> $path.'/PCT/CustomCatalog/Feeds/TableCustomCatalogFeed.php',
+	'PCT\CustomCatalog\Feeds\TableLayout'				=> $path.'/PCT/CustomCatalog/Feeds/TableLayout.php',	
+);
+
+$loader = new \Composer\Autoload\ClassLoader();
+$loader->addClassMap($classMap);
+$loader->register();

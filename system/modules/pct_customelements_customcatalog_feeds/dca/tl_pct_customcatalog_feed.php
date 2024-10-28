@@ -16,14 +16,12 @@
 /**
  * Load language file
  */
-$this->loadLanguageFile('tl_news_feed');
-
-$objDcaHelper = \PCT\CustomElements\Plugins\CustomCatalog\Helper\DcaHelper::getInstance()->setTable('tl_pct_customcatalog_feed');
+\Contao\System::loadLanguageFile('tl_news_feed');
 
 /**
  * Table tl_pct_customcatalog_feed
  */
-$GLOBALS['TL_DCA'][$objDcaHelper->getTable()] = array
+$GLOBALS['TL_DCA']['tl_pct_customcatalog_feed'] = array
 (
 	// Config
 	'config' => array
@@ -47,7 +45,7 @@ $GLOBALS['TL_DCA'][$objDcaHelper->getTable()] = array
 				'alias' => 'index'
 			)
 		),
-		'backlink' => \Controller::getReferer(),
+		#'backlink' => \Controller::getReferer(),
 	),
 	// List
 	'list' => array
@@ -78,26 +76,26 @@ $GLOBALS['TL_DCA'][$objDcaHelper->getTable()] = array
 		(
 			'edit' => array
 			(
-				'label'               => &$GLOBALS['TL_LANG'][$objDcaHelper->getTable()]['edit'],
+				'label'               => &$GLOBALS['TL_LANG']['tl_pct_customcatalog_feed']['edit'],
 				'href'                => 'act=edit',
 				'icon'                => 'edit.gif'
 			),
 			'copy' => array
 			(
-				'label'               => &$GLOBALS['TL_LANG'][$objDcaHelper->getTable()]['copy'],
+				'label'               => &$GLOBALS['TL_LANG']['tl_pct_customcatalog_feed']['copy'],
 				'href'                => 'act=copy',
 				'icon'                => 'copy.gif'
 			),
 			'delete' => array
 			(
-				'label'               => &$GLOBALS['TL_LANG'][$objDcaHelper->getTable()]['delete'],
+				'label'               => &$GLOBALS['TL_LANG']['tl_pct_customcatalog_feed']['delete'],
 				'href'                => 'act=delete',
 				'icon'                => 'delete.gif',
 				'attributes'          => 'onclick="if(!confirm(\'' . $GLOBALS['TL_LANG']['MSC']['deleteConfirm'] . '\'))return false;Backend.getScrollOffset()"'
 			),
 			'show' => array
 			(
-				'label'               => &$GLOBALS['TL_LANG'][$objDcaHelper->getTable()]['show'],
+				'label'               => &$GLOBALS['TL_LANG']['tl_pct_customcatalog_feed']['show'],
 				'href'                => 'act=show',
 				'icon'                => 'show.gif'
 			)
@@ -116,7 +114,7 @@ $arrPalettes = array
 	'export_legend'				=> array('titleField','publishedField','descriptionField','authorField','imageField'),
 	'config_legend'				=> array('format','maxItems','feedBase','description'),
 );
-$GLOBALS['TL_DCA'][$objDcaHelper->getTable()]['palettes']['default'] = $objDcaHelper->generatePalettes($arrPalettes);
+$GLOBALS['TL_DCA']['tl_pct_customcatalog_feed']['palettes']['default'] = $objDcaHelper->generatePalettes($arrPalettes);
 
 
 /**
@@ -156,7 +154,7 @@ $objDcaHelper->addFields(array
 		(
 			array('PCT\CustomCatalog\Feeds\TableCustomCatalogFeed', 'checkFeedAlias')
 		),
-		'sql'                     => "varchar(128) COLLATE utf8_bin NOT NULL default ''"
+		'sql'                     => "varchar(255) BINARY NOT NULL default ''"
 	),
 	'language' => array
 	(
@@ -170,7 +168,7 @@ $objDcaHelper->addFields(array
 	),
 	'configs' => array
 	(
-		'label'                   => &$GLOBALS['TL_LANG'][$objDcaHelper->getTable()]['configs'],
+		'label'                   => &$GLOBALS['TL_LANG']['tl_pct_customcatalog_feed']['configs'],
 		'exclude'                 => true,
 		'search'                  => true,
 		'inputType'               => 'checkbox',
@@ -180,7 +178,7 @@ $objDcaHelper->addFields(array
 	),
 	'jumpTo' => array
 	(
-		'label'           		=> &$GLOBALS['TL_LANG'][$objDcaHelper->getTable()]['jumpTo'],
+		'label'           		=> &$GLOBALS['TL_LANG']['tl_pct_customcatalog_feed']['jumpTo'],
 		'exclude'         		=> true,
 		'inputType'       		=> 'pageTree',
 		'eval'            		=> array('tl_class'=>'','mandatory'=>true),
@@ -209,7 +207,7 @@ $objDcaHelper->addFields(array
 	'feedBase' => array
 	(
 		'label'                   => &$GLOBALS['TL_LANG']['tl_news_feed']['feedBase'],
-		'default'                 => \Environment::get('base'),
+		'default'                 => \Contao\Environment::get('base'),
 		'exclude'                 => true,
 		'search'                  => true,
 		'inputType'               => 'text',
@@ -218,7 +216,7 @@ $objDcaHelper->addFields(array
 	),
 	'description' => array
 	(
-		'label'                   => &$GLOBALS['TL_LANG'][$objDcaHelper->getTable()]['description'],
+		'label'                   => &$GLOBALS['TL_LANG']['tl_pct_customcatalog_feed']['description'],
 		'exclude'                 => true,
 		'search'                  => true,
 		'inputType'               => 'textarea',
@@ -228,7 +226,7 @@ $objDcaHelper->addFields(array
 	// export settings
 	'titleField' => array
 	(
-		'label'                   => &$GLOBALS['TL_LANG'][$objDcaHelper->getTable()]['titleField'],
+		'label'                   => &$GLOBALS['TL_LANG']['tl_pct_customcatalog_feed']['titleField'],
 		'exclude'                 => true,
 		'inputType'               => 'select',
 		'options_callback'        => array('PCT\CustomCatalog\Feeds\TableCustomCatalogFeed', 'getTextAttributes'),
@@ -237,7 +235,7 @@ $objDcaHelper->addFields(array
 	),
 	'descriptionField' => array
 	(
-		'label'                   => &$GLOBALS['TL_LANG'][$objDcaHelper->getTable()]['descriptionField'],
+		'label'                   => &$GLOBALS['TL_LANG']['tl_pct_customcatalog_feed']['descriptionField'],
 		'exclude'                 => true,
 		'inputType'               => 'select',
 		'options_callback'        => array('PCT\CustomCatalog\Feeds\TableCustomCatalogFeed', 'getTextAttributes'),
@@ -246,7 +244,7 @@ $objDcaHelper->addFields(array
 	),
 	'publishedField' => array
 	(
-		'label'                   => &$GLOBALS['TL_LANG'][$objDcaHelper->getTable()]['publishedField'],
+		'label'                   => &$GLOBALS['TL_LANG']['tl_pct_customcatalog_feed']['publishedField'],
 		'exclude'                 => true,
 		'inputType'               => 'select',
 		'options_callback'        => array('PCT\CustomCatalog\Feeds\TableCustomCatalogFeed', 'getTimestampAttributes'),
@@ -255,7 +253,7 @@ $objDcaHelper->addFields(array
 	),
 	'authorField' => array
 	(
-		'label'                   => &$GLOBALS['TL_LANG'][$objDcaHelper->getTable()]['authorField'],
+		'label'                   => &$GLOBALS['TL_LANG']['tl_pct_customcatalog_feed']['authorField'],
 		'exclude'                 => true,
 		'inputType'               => 'select',
 		'options_callback'        => array('PCT\CustomCatalog\Feeds\TableCustomCatalogFeed', 'getTextAttributes'),
@@ -264,7 +262,7 @@ $objDcaHelper->addFields(array
 	),
 	'imageField' => array
 	(
-		'label'                   => &$GLOBALS['TL_LANG'][$objDcaHelper->getTable()]['imageField'],
+		'label'                   => &$GLOBALS['TL_LANG']['tl_pct_customcatalog_feed']['imageField'],
 		'exclude'                 => true,
 		'inputType'               => 'select',
 		'options_callback'        => array('PCT\CustomCatalog\Feeds\TableCustomCatalogFeed', 'getImageAttributes'),
