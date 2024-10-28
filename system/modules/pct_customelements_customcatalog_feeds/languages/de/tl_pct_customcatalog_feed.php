@@ -6,6 +6,12 @@
 $GLOBALS['TL_LANG']['tl_pct_customcatalog_feed']['new'][0] = 'Neuer Feed';
 $GLOBALS['TL_LANG']['tl_pct_customcatalog_feed']['new'][1] = 'Einen neuen Feed erstellen';
 
+$GLOBALS['TL_LANG']['tl_pct_customcatalog_feed']['title'][0] 			= 'Titel';
+$GLOBALS['TL_LANG']['tl_pct_customcatalog_feed']['title'][1] 			= 'Bitte geben Sie einen Feed-Titel ein.';
+$GLOBALS['TL_LANG']['tl_pct_customcatalog_feed']['alias'][0] 			= 'Feed-Alias';
+$GLOBALS['TL_LANG']['tl_pct_customcatalog_feed']['alias'][1] 			= 'Hier können Sie einen eindeutigen Dateinamen (ohne Endung) eingeben. Die XML-Datei wird automatisch im &lt;em&gt;share&lt;/em&gt;-Ordner Ihrer Contao-Installation erstellt, z. B. als &lt;em&gt;share/name.xml&lt;/em&gt;.';
+$GLOBALS['TL_LANG']['tl_pct_customcatalog_feed']['language'][0] 		= 'Feed-Sprache';
+$GLOBALS['TL_LANG']['tl_pct_customcatalog_feed']['language'][1] 		= 'Bitte geben Sie die Sprache der Seite gemäß des ISO-639 Standards ein (z. B. &lt;em&gt;de&lt;/em&gt;, &lt;em&gt;de-ch&lt;/em&gt;).';
 $GLOBALS['TL_LANG']['tl_pct_customcatalog_feed']['configs'][0] 			= 'Konfigurationen';
 $GLOBALS['TL_LANG']['tl_pct_customcatalog_feed']['configs'][1] 			= 'Legen Sie hier fest, welche Konfigurationen in dem Feed enthalten sind';
 $GLOBALS['TL_LANG']['tl_pct_customcatalog_feed']['description'][0] 		= 'Feed-Beschreibung';

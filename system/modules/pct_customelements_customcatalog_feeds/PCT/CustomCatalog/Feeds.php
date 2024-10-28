@@ -60,13 +60,13 @@ class Feeds extends Frontend
 		// Add newsfeeds
 		if ($objFeeds !== null)
 		{
-			$path = 'share';
+			$webDir = StringUtil::stripRootDir(System::getContainer()->getParameter('contao.web_dir'));
 			
 			$feedTags = array();
 			while($objFeeds->next())
 			{
 				$type = $objFeeds->format;
-				$href = ($objFeeds->feedBase ?: Environment::get('base')) . $path. '/' . $objFeeds->alias . '.xml';
+				$href = ($objFeeds->feedBase ?: Environment::get('base')) . $webDir. '/share/' . $objFeeds->alias . '.xml';
 				$feedTags[] = \sprintf('<link type="%s" rel="alternate" href="%s" title="%s">', $type, $href, $objFeeds->title);
 			}
 			$GLOBALS['TL_HEAD'][] = \implode("\n",$feedTags);
@@ -184,11 +184,11 @@ class Feeds extends Frontend
 		$arrFields = array
 		(
 			'id','pid','tstamp',
-			'description' 	=> $objDescriptionAttribute->alias,
-			'title'			=> $objTitleAttribute->alias,
-			'published'		=> $objPublishedAttribute->alias,
-			'author'		=> $objAuthorAttribute->alias,
-			'singleSRC'		=> $objImageAttribute->alias,
+			'description' 	=> $objDescriptionAttribute->alias ?? '',
+			'title'			=> $objTitleAttribute->alias ?? '',
+			'published'		=> $objPublishedAttribute->alias ?? '',
+			'author'		=> $objAuthorAttribute->alias ?? '',
+			'singleSRC'		=> $objImageAttribute->alias ?? '',
 		);
 		
 		foreach($arrConfigs as $config_id)
@@ -246,14 +246,10 @@ class Feeds extends Frontend
 			}
 		}
 		
-		$path = 'share';
-		if( version_compare(ContaoCoreBundle::getVersion(),'4.4','>=') )
-		{
-			$path = 'web/share';
-		}
-		
+		$webDir = StringUtil::stripRootDir(System::getContainer()->getParameter('contao.web_dir'));
+
 		// create file
-		File::putContent($path.'/'.$strFile . '.xml', $objInsertTagParser->replace($objFeed->$strType(), false));
+		File::putContent($webDir.'/share/'.$strFile . '.xml', $objInsertTagParser->replace($objFeed->$strType(), false));
 	}
 	
 	

@@ -13,19 +13,13 @@
  * @link		http://contao.org
  */
 
-use Contao\ArrayUtil;
-use Contao\System;
-
-System::loadLanguageFile('tl_news_feed');
-
-ArrayUtil::arrayInsert($GLOBALS['TL_DCA']['tl_pct_customcatalog']['list']['global_operations'],0,array
+\Contao\ArrayUtil::arrayInsert($GLOBALS['TL_DCA']['tl_pct_customcatalog']['list']['global_operations'],0,array
 (
 	'feeds' => array
 	(
-		'label'               => &$GLOBALS['TL_LANG']['tl_news_archive']['feeds'],
+		'label'               => &$GLOBALS['TL_LANG']['tl_pct_customcatalog']['feeds'],
 		'href'                => 'table=tl_pct_customcatalog_feed',
 		'class'               => 'header_rss',
 		'attributes'          => 'onclick="Backend.getScrollOffset()"',
-		'button_callback'     => array('PCT\CustomCatalog\Feeds\TableCustomCatalog', 'manageFeedsButton')
 	),
 ));

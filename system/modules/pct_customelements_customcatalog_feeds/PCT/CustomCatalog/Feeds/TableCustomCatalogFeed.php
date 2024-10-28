@@ -37,7 +37,8 @@ class TableCustomCatalogFeed extends Backend
 	{
 		parent::__construct();
 		$this->import(BackendUser::class, 'User');
-		$this->import(Database::class, 'Database');	
+		$this->import(Database::class, 'Database');
+		$this->Session = System::getContainer()->get('request_stack')->getSession();
 	}
 
 

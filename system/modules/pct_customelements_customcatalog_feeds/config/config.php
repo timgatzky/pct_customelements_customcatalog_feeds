@@ -41,12 +41,6 @@ $GLOBALS['TL_MODELS']['tl_pct_customcatalog_feed'] = 'PCT\CustomCatalog\Models\F
 $GLOBALS['TL_CRON']['daily'][] = array('PCT\CustomCatalog\Feeds', 'generateFeeds');
 
 /**
- * Add permissions
- */
-$GLOBALS['TL_PERMISSIONS'][] = 'customcatalogfeeds';
-$GLOBALS['TL_PERMISSIONS'][] = 'customcatalogfeedp';
-
-/**
  * Hooks
  */
 $GLOBALS['TL_HOOKS']['removeOldFeeds'][] 	= array('PCT\CustomCatalog\Feeds', 'purgeOldFeeds');
