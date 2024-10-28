@@ -18,10 +18,12 @@
  */
 namespace PCT\CustomCatalog\Models;
 
+use Contao\Model;
+
 /**
  * Class file
  */
-class FeedModel extends \Model
+class FeedModel extends Model
 {
 	/**
 	 * Table name

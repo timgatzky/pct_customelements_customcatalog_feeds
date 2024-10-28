@@ -18,17 +18,30 @@
  */
 namespace PCT\CustomCatalog\Feeds;
 
+use Contao\Automator;
+use Contao\Backend;
+use Contao\BackendUser;
+use Contao\Database;
+use Contao\StringUtil;
+use Contao\System;
+
 /**
  * Class file
  */
-class TableCustomCatalogFeed extends \Backend
+class TableCustomCatalogFeed extends Backend
 {
+	/**
+	 * Import the back end user object
+	 */
 	public function __construct()
 	{
 		parent::__construct();
-		$this->import('BackendUser','User');
+		$this->import(BackendUser::class, 'User');
+		$this->import(Database::class, 'Database');
+		$this->Session = System::getContainer()->get('request_stack')->getSession();
 	}
-	
+
+
 	/**
 	 * Check feed alias
 	 * @param mixed
@@ -43,15 +56,15 @@ class TableCustomCatalogFeed extends \Backend
 			return $varValue;
 		}
 
-		$varValue = standardize($varValue); // see #5096
+		$varValue = StringUtil::standardize($varValue); // see #5096
 
-		$this->import('Automator');
+		$this->import(Automator::class, 'Automator');
 		$arrFeeds = $this->Automator->purgeXmlFiles(true);
 
 		// Alias exists
 		if (array_search($varValue, $arrFeeds) !== false)
 		{
-			throw new Exception(sprintf($GLOBALS['TL_LANG']['ERR']['aliasExists'], $varValue));
+			throw new \Exception(sprintf($GLOBALS['TL_LANG']['ERR']['aliasExists'], $varValue));
 		}
 
 		return $varValue;
@@ -77,7 +90,7 @@ class TableCustomCatalogFeed extends \Backend
 			$objFeeds->generateFeedsByConfig($id);
 		}
 
-		$this->import('Automator');
+		$this->import(Automator::class, 'Automator');
 		$this->Automator->generateSitemap();
 
 		$this->Session->set('customcatalog_feed_updater', null);
@@ -114,7 +127,7 @@ class TableCustomCatalogFeed extends \Backend
 	 */
 	public function getAllowedConfigurations($objDC)
 	{
-		$objResult =  \Database::getInstance()->prepare("SELECT * FROM tl_pct_customcatalog WHERE pid=?")->execute($objDC->activeRecord->pid);
+		$objResult = $this->Database->prepare("SELECT * FROM tl_pct_customcatalog WHERE pid=?")->execute($objDC->activeRecord->pid);
 		if($objResult->numRows < 1)
 		{
 			return array();
@@ -138,8 +151,7 @@ class TableCustomCatalogFeed extends \Backend
 	public function getTextAttributes($objDC)
 	{
 		$arrTypes = array('text','textarea');
-		$objDatabase = \Database::getInstance();
-		$objResult = $objDatabase->prepare("SELECT * FROM tl_pct_customelement_attribute WHERE pid IN(SELECT id FROM tl_pct_customelement_group WHERE pid=?) AND ".$objDatabase->findInSet('type',$arrTypes))->execute($objDC->activeRecord->pid);
+		$objResult = $this->Database->prepare("SELECT * FROM tl_pct_customelement_attribute WHERE pid IN(SELECT id FROM tl_pct_customelement_group WHERE pid=?) AND ".$this->Database->findInSet('type',$arrTypes))->execute($objDC->activeRecord->pid);
 		$arrReturn = array();
 		while($objResult->next())
 		{
@@ -157,8 +169,7 @@ class TableCustomCatalogFeed extends \Backend
 	public function getTimestampAttributes($objDC)
 	{
 		$arrTypes = array('text','timestamp');
-		$objDatabase = \Database::getInstance();
-		$objResult = $objDatabase->prepare("SELECT * FROM tl_pct_customelement_attribute WHERE pid IN(SELECT id FROM tl_pct_customelement_group WHERE pid=?) AND ".$objDatabase->findInSet('type',$arrTypes))->execute($objDC->activeRecord->pid);
+		$objResult = $this->Database->prepare("SELECT * FROM tl_pct_customelement_attribute WHERE pid IN(SELECT id FROM tl_pct_customelement_group WHERE pid=?) AND ".$this->Database->findInSet('type',$arrTypes))->execute($objDC->activeRecord->pid);
 		$arrReturn = array();
 		while($objResult->next())
 		{
@@ -176,8 +187,7 @@ class TableCustomCatalogFeed extends \Backend
 	public function getImageAttributes($objDC)
 	{
 		$arrTypes = array('image');
-		$objDatabase = \Database::getInstance();
-		$objResult = $objDatabase->prepare("SELECT * FROM tl_pct_customelement_attribute WHERE pid IN(SELECT id FROM tl_pct_customelement_group WHERE pid=?) AND ".$objDatabase->findInSet('type',$arrTypes))->execute($objDC->activeRecord->pid);
+		$objResult = $this->Database->prepare("SELECT * FROM tl_pct_customelement_attribute WHERE pid IN(SELECT id FROM tl_pct_customelement_group WHERE pid=?) AND ".$this->Database->findInSet('type',$arrTypes))->execute($objDC->activeRecord->pid);
 		$arrReturn = array();
 		while($objResult->next())
 		{

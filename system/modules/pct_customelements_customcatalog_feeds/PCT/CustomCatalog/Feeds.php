@@ -21,13 +21,25 @@ namespace PCT\CustomCatalog;
 /**
  * Imports
  */
+use Contao\Automator;
+use Contao\CoreBundle\ContaoCoreBundle;
+use Contao\Environment;
+use Contao\Feed;
+use Contao\FeedItem;
+use Contao\File;
+use Contao\FilesModel;
+use Contao\Frontend;
+use Contao\Input;
+use Contao\PageModel;
+use Contao\StringUtil;
+use Contao\System;
 use PCT\CustomCatalog\Models\FeedModel as FeedModel;
 use PCT\CustomElements\Plugins\CustomCatalog\Core\CustomCatalogFactory as CustomCatalogFactory;
 
 /**
  * Class file
  */
-class Feeds extends \Frontend
+class Feeds extends Frontend
 {
 	/**
 	 * Add the feed link to the page head
@@ -38,25 +50,29 @@ class Feeds extends \Frontend
 	 */
 	public function addFeedLinkToPage($objPage, $objLayout, $objPageRegular)
 	{
-		$arrFeeds = deserialize($objLayout->customcatalogfeeds);
-		
-		// Add newsfeeds
-		if (!empty($arrFeeds) && is_array($arrFeeds))
+		if( !isset($objLayout->customcatalogfeeds) || empty($objLayout->customcatalogfeeds) )
 		{
-			$objFeeds = FeedModel::findByIds($arrFeeds);
-			if ($objFeeds !== null)
+			return;
+		}
+
+		$objFeeds = FeedModel::findByIds( StringUtil::deserialize($objLayout->customcatalogfeeds) );
+
+		// Add newsfeeds
+		if ($objFeeds !== null)
+		{
+			$webDir = StringUtil::stripRootDir(System::getContainer()->getParameter('contao.web_dir'));
+			
+			$feedTags = array();
+			while($objFeeds->next())
 			{
-				$path = 'share';
-				
-				while($objFeeds->next())
-				{
-					$GLOBALS['TL_HEAD'][] = \Template::generateFeedTag(($objFeeds->feedBase ?: \Environment::get('base')) . $path. '/' . $objFeeds->alias . '.xml', $objFeeds->format, $objFeeds->title, $blnXhtml) . "\n";
-				}
+				$type = $objFeeds->format;
+				$href = ($objFeeds->feedBase ?: Environment::get('base')) . $webDir. '/share/' . $objFeeds->alias . '.xml';
+				$feedTags[] = \sprintf('<link type="%s" rel="alternate" href="%s" title="%s">', $type, $href, $objFeeds->title);
 			}
+			$GLOBALS['TL_HEAD'][] = \implode("\n",$feedTags);
 		}
 	}
-	
-	
+
 	/**
 	 * Update a particular RSS feed
 	 * @param integer
@@ -72,7 +88,7 @@ class Feeds extends \Frontend
 		$objFeed->feedName = $objFeed->alias ?: 'customcatalog' . $objFeed->id;
 
 		// Delete XML file
-		if (\Input::get('act') == 'delete')
+		if (Input::get('act') == 'delete')
 		{
 			$this->import('Files');
 			$this->Files->delete($objFeed->feedName . '.xml');
@@ -82,7 +98,7 @@ class Feeds extends \Frontend
 		else
 		{
 			$this->generateFiles($objFeed->row());
-			$this->log('Generated CustomCatalog feed "' . $objFeed->feedName . '.xml"', __METHOD__, TL_CRON);
+			System::getContainer()->get('monolog.logger.contao.cron')->info('Generated CustomCatalog feed "' . $objFeed->feedName . '.xml"');
 		}
 	}
 
@@ -92,7 +108,7 @@ class Feeds extends \Frontend
 	 */
 	public function generateFeeds()
 	{
-		$this->import('Automator');
+		$this->import(Automator::class,'Automator');
 		$this->Automator->purgeXmlFiles();
 
 		$objFeed = FeedModel::findAll();
@@ -103,7 +119,7 @@ class Feeds extends \Frontend
 			{
 				$objFeed->feedName = $objFeed->alias ?: 'customcatalog' . $objFeed->id;
 				$this->generateFiles($objFeed->row());
-				$this->log('Generated CustomCatalog feed "' . $objFeed->feedName . '.xml"', __METHOD__, TL_CRON);
+				System::getContainer()->get('monolog.logger.contao.cron')->info('Generated CustomCatalog feed "' . $objFeed->feedName . '.xml"');
 			}
 		}
 	}
@@ -125,7 +141,7 @@ class Feeds extends \Frontend
 
 				// Update the XML file
 				$this->generateFiles($objFeed->row());
-				$this->log('Generated CustomCatalog feed "' . $objFeed->feedName . '.xml"', __METHOD__, TL_CRON);
+				System::getContainer()->get('monolog.logger.contao.cron')->info('Generated CustomCatalog feed "' . $objFeed->feedName . '.xml"');
 			}
 		}
 	}
@@ -137,7 +153,7 @@ class Feeds extends \Frontend
 	 */
 	protected function generateFiles($arrFeed)
 	{
-		$arrConfigs = deserialize($arrFeed['configs']);
+		$arrConfigs = StringUtil::deserialize($arrFeed['configs']);
 
 		if(!is_array($arrConfigs) || empty($arrConfigs))
 		{
@@ -146,17 +162,17 @@ class Feeds extends \Frontend
 		
 		
 		$strType = ($arrFeed['format'] == 'atom') ? 'generateAtom' : 'generateRss';
-		$strLink = $arrFeed['feedBase'] ?: \Environment::get('base');
+		$strLink = $arrFeed['feedBase'] ?: Environment::get('base');
 		$strFile = $arrFeed['feedName'];
 
-		$objFeed = new \Feed($strFile);
+		$objFeed = new Feed($strFile);
 		$objFeed->link = $strLink;
 		$objFeed->title = $arrFeed['title'];
 		$objFeed->description = $arrFeed['description'];
 		$objFeed->language = $arrFeed['language'];
 		$objFeed->published = $arrFeed['tstamp'];
 		
-		$objJumpTo = \PageModel::findByPk($arrFeed['jumpTo']);
+		$objJumpTo = PageModel::findByPk($arrFeed['jumpTo']);
 
 		// find the source attributes
 		$objDescriptionAttribute 	= \PCT\CustomElements\Core\AttributeFactory::fetchById($arrFeed['descriptionField']);
@@ -168,11 +184,11 @@ class Feeds extends \Frontend
 		$arrFields = array
 		(
 			'id','pid','tstamp',
-			'description' 	=> $objDescriptionAttribute->alias,
-			'title'			=> $objTitleAttribute->alias,
-			'published'		=> $objPublishedAttribute->alias,
-			'author'		=> $objAuthorAttribute->alias,
-			'singleSRC'		=> $objImageAttribute->alias,
+			'description' 	=> $objDescriptionAttribute->alias ?? '',
+			'title'			=> $objTitleAttribute->alias ?? '',
+			'published'		=> $objPublishedAttribute->alias ?? '',
+			'author'		=> $objAuthorAttribute->alias ?? '',
+			'singleSRC'		=> $objImageAttribute->alias ?? '',
 		);
 		
 		foreach($arrConfigs as $config_id)
@@ -203,24 +219,22 @@ class Feeds extends \Frontend
 				continue;
 			}
 			
+			$objInsertTagParser = System::getContainer()->get('contao.insert_tag.parser');
+
 			while($objEntries->next())
 			{
-				$objItem = new \FeedItem();
+				$objItem = new FeedItem();
 				$objItem->title = $objEntries->{$arrFields['title']};
-				if(version_compare(VERSION, '4.4','>='))
-				{
-					$strLink = '';
-				}
-				$objItem->link = $strLink.$objCC->generateDetailsUrl($objEntries,$objJumpTo);
+				$objItem->link = $objCC->generateDetailsUrl($objEntries,$objJumpTo);
 				$objItem->published = $objEntries->{$arrFields['published']} ?: $objEntries->tstamp;
 				$objItem->author = $objEntries->{$arrFields['author']} ?: '';
 				
-				$strDescription = $this->replaceInsertTags($objEntries->{$arrFields['description']}, false);
+				$strDescription = $objInsertTagParser->replace($objEntries->{$arrFields['description']}, false);
 				$objItem->description = $this->convertRelativeUrls($strDescription, $strLink);
 				
 				if($objEntries->{$arrFields['singleSRC']} && $objImageAttribute->published)
 				{
-					$objFile = \FilesModel::findByUuid($objEntries->{$arrFields['singleSRC']});
+					$objFile = FilesModel::findByUuid($objEntries->{$arrFields['singleSRC']});
 					if ($objFile !== null)
 					{
 						$objItem->addEnclosure($objFile->path);
@@ -232,14 +246,10 @@ class Feeds extends \Frontend
 			}
 		}
 		
-		$path = 'share';
-		if(version_compare(VERSION, '4.4','>='))
-		{
-			$path = 'web/share';
-		}
-		
+		$webDir = StringUtil::stripRootDir(System::getContainer()->getParameter('contao.web_dir'));
+
 		// create file
-		\File::putContent($path.'/'.$strFile . '.xml', $this->replaceInsertTags($objFeed->$strType(), false));
+		File::putContent($webDir.'/share/'.$strFile . '.xml', $objInsertTagParser->replace($objFeed->$strType(), false));
 	}
 	
 	

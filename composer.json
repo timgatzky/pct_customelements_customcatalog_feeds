@@ -3,7 +3,7 @@
 	"description":"RSS Feeds plugin for Premium Contao Themes CustomCatalog module https://www.premium-contao-themes.com/",
 	"keywords":["contao","customcatalog","catalog","customelements","themes","premiumcontaothemes","premium-contao-themes"],
 	"type":"contao-module",
-    "homepage":"https://github.com/timgatzky/pct_customelements_plugin_ratings",
+    "homepage":"https://github.com/timgatzky/pct_customelements_customcatalog_feeds",
 	"license": "LGPL-3.0+",
 	"authors":
 	[
@@ -22,13 +22,12 @@
 	{
 		"issues":"https://github.com/timgatzky/pct_customelements_customcatalog_feeds/issues",
 		"source":"https://github.com/timgatzky/pct_customelements_customcatalog_feeds",
-		"forum":"https://forum.premium-contao-themes.com",
-		"example":"http://cc.ratings.premium-contao-themes.com"
+		"forum":"https://forum.premium-contao-themes.com"
 	},
 	"require":
 	{
-		"php":">=5.6",
-        "contao/core-bundle":"^3.5 || ~4.4",
+		"php":">=7.4",
+		"contao/core-bundle":"^4.13.0 || ^5.3.0",
         "contao-community-alliance/composer-plugin":"~2.4 || ~3.0"
 	},
 	"require-dev": 

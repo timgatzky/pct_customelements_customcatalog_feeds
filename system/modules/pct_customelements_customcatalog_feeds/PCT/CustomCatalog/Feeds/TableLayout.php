@@ -18,22 +18,18 @@
  */
 namespace PCT\CustomCatalog\Feeds;
 
+use Contao\Backend;
+
 /**
  * Class file
  */
-class TableLayout extends \Backend
+class TableLayout extends Backend
 {
-	public function __construct()
-	{
-		parent::__construct();
-		$this->import('BackendUser','User');
-	}
-	
 	/**
 	 * Return all feeds as array
 	 * @param object
 	 */
-	public function getAllFeeds($objDC)
+	public function getAllFeeds()
 	{
 		$objFeeds = \PCT\CustomCatalog\Models\FeedModel::findAll();
 		if($objFeeds === null)
