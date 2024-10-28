@@ -1,5 +1,6 @@
 ### 2.0.0
-Update: Rebuild for Contao 4.13 and 5.3 support ()
+Update: Rebuild for Contao 4.13 and 5.3 support (#7)
+Update: Removed rights management (#8)
 
 ### 1.2.2
 Update: No need for a version_compare to Contao 4.4 anymore for the path to the share folder (#6)
