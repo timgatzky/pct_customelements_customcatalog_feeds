@@ -21,7 +21,6 @@ namespace PCT\CustomCatalog;
 /**
  * Imports
  */
-
 use Contao\Automator;
 use Contao\CoreBundle\ContaoCoreBundle;
 use Contao\Environment;
@@ -34,7 +33,6 @@ use Contao\Input;
 use Contao\PageModel;
 use Contao\StringUtil;
 use Contao\System;
-use Contao\Template;
 use PCT\CustomCatalog\Models\FeedModel as FeedModel;
 use PCT\CustomElements\Plugins\CustomCatalog\Core\CustomCatalogFactory as CustomCatalogFactory;
 
@@ -52,25 +50,29 @@ class Feeds extends Frontend
 	 */
 	public function addFeedLinkToPage($objPage, $objLayout, $objPageRegular)
 	{
-		$arrFeeds = StringUtil::deserialize($objLayout->customcatalogfeeds);
-		
-		// Add newsfeeds
-		if (!empty($arrFeeds) && is_array($arrFeeds))
+		if( !isset($objLayout->customcatalogfeeds) || empty($objLayout->customcatalogfeeds) )
 		{
-			$objFeeds = FeedModel::findByIds($arrFeeds);
-			if ($objFeeds !== null)
+			return;
+		}
+
+		$objFeeds = FeedModel::findByIds( StringUtil::deserialize($objLayout->customcatalogfeeds) );
+
+		// Add newsfeeds
+		if ($objFeeds !== null)
+		{
+			$path = 'share';
+			
+			$feedTags = array();
+			while($objFeeds->next())
 			{
-				$path = 'share';
-				
-				while($objFeeds->next())
-				{
-					$GLOBALS['TL_HEAD'][] = Template::generateFeedTag(($objFeeds->feedBase ?: Environment::get('base')) . $path. '/' . $objFeeds->alias . '.xml', $objFeeds->format, $objFeeds->title) . "\n";
-				}
+				$type = $objFeeds->format;
+				$href = ($objFeeds->feedBase ?: Environment::get('base')) . $path. '/' . $objFeeds->alias . '.xml';
+				$feedTags[] = \sprintf('<link type="%s" rel="alternate" href="%s" title="%s">', $type, $href, $objFeeds->title);
 			}
+			$GLOBALS['TL_HEAD'][] = \implode("\n",$feedTags);
 		}
 	}
-	
-	
+
 	/**
 	 * Update a particular RSS feed
 	 * @param integer
