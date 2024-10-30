@@ -40,8 +40,11 @@
 	},
 	"remove":
 	{
-		"contao-legacy/pct_customelements_customcatalog_feeds"
-	},	
+		"contao-legacy/pct_customelements_customcatalog_feeds":"*"
+	},
+	"conflict": {
+        "contao-legacy/pct_customelements_customcatalog_feeds":"*"
+    },
 	"autoload": 
 	{
         "psr-0": 
