@@ -38,11 +38,8 @@
 	{
 		"contao-legacy/pct_customelements_plugin_customcatalog_feeds":"self.version"
 	},
-	"remove":
+	"conflict": 
 	{
-		"contao-legacy/pct_customelements_customcatalog_feeds":"*"
-	},
-	"conflict": {
         "contao-legacy/pct_customelements_customcatalog_feeds":"*"
     },
 	"autoload": 
@@ -58,7 +55,7 @@
 		{
             "sources": 
             {
-                "system/modules/pct_customelements_customcatalog_feeds": "system/modules/pct_customelements_plugin_customcatalog_feeds"
+                "system/modules/pct_customelements_plugin_customcatalog_feeds": "system/modules/pct_customelements_plugin_customcatalog_feeds"
             }
         }
 	}
