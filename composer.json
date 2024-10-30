@@ -3,7 +3,7 @@
 	"description":"RSS Feeds plugin for Premium Contao Themes CustomCatalog module https://www.premium-contao-themes.com/",
 	"keywords":["contao","customcatalog","catalog","customelements","themes","premiumcontaothemes","premium-contao-themes"],
 	"type":"contao-module",
-    "homepage":"https://github.com/timgatzky/pct_customelements_customcatalog_feeds",
+    "homepage":"https://github.com/timgatzky/pct_customelements_plugin_customcatalog_feeds",
 	"license": "LGPL-3.0+",
 	"authors":
 	[
@@ -20,8 +20,8 @@
 	],
 	"support":
 	{
-		"issues":"https://github.com/timgatzky/pct_customelements_customcatalog_feeds/issues",
-		"source":"https://github.com/timgatzky/pct_customelements_customcatalog_feeds",
+		"issues":"https://github.com/timgatzky/pct_customelements_plugin_customcatalog_feeds/issues",
+		"source":"https://github.com/timgatzky/pct_customelements_plugin_customcatalog_feeds",
 		"forum":"https://forum.premium-contao-themes.com"
 	},
 	"require":
@@ -36,7 +36,11 @@
 	},
 	"replace":
 	{
-		"contao-legacy/pct_customelements_customcatalog_feeds":"self.version"
+		"contao-legacy/pct_customelements_plugin_customcatalog_feeds":"self.version"
+	},
+	"remove":
+	{
+		"contao-legacy/pct_customelements_customcatalog_feeds"
 	},	
 	"autoload": 
 	{
@@ -51,7 +55,7 @@
 		{
             "sources": 
             {
-                "system/modules/pct_customelements_customcatalog_feeds": "system/modules/pct_customelements_customcatalog_feeds"
+                "system/modules/pct_customelements_customcatalog_feeds": "system/modules/pct_customelements_plugin_customcatalog_feeds"
             }
         }
 	}
