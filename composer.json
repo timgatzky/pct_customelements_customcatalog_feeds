@@ -37,6 +37,10 @@
 	"replace":
 	{
 		"contao-legacy/pct_customelements_plugin_customcatalog_feeds":"self.version"
+	},
+	"remove":
+	{
+		"contao-legacy/pct_customelements_customcatalog_feeds"
 	},	
 	"autoload": 
 	{
