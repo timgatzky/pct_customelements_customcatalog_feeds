@@ -15,7 +15,7 @@
 
 
 // path relative from composer directory
-$path = \Contao\System::getContainer()->getParameter('kernel.project_dir').'/vendor/composer/../../system/modules/pct_customelements_customcatalog_feeds';
+$path = \Contao\System::getContainer()->getParameter('kernel.project_dir').'/vendor/composer/../../system/modules/pct_customelements_plugin_customcatalog_feeds';
 
 /**
  * Register the classes

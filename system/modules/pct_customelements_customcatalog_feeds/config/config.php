@@ -24,7 +24,7 @@ define('PCT_CUSTOMCATALOG_FEEDS_VERSION', '2.0.0');
 if( version_compare(ContaoCoreBundle::getVersion(),'5.0','>=') )
 {
 	$rootDir = System::getContainer()->getParameter('kernel.project_dir');
-	include( $rootDir.'/system/modules/pct_customelements_customcatalog_feeds/config/autoload.php' );
+	include( $rootDir.'/system/modules/pct_customelements_plugin_customcatalog_feeds/config/autoload.php' );
 }
 
 // Register more tables to the pct_customelement module
