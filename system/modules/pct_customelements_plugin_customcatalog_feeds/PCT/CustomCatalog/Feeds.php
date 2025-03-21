@@ -160,6 +160,7 @@ class Feeds extends Frontend
 			return;
 		}
 		
+		$objInsertTagParser = System::getContainer()->get('contao.insert_tag.parser');
 		
 		$strType = ($arrFeed['format'] == 'atom') ? 'generateAtom' : 'generateRss';
 		$strLink = $arrFeed['feedBase'] ?: Environment::get('base');
@@ -219,8 +220,6 @@ class Feeds extends Frontend
 				continue;
 			}
 			
-			$objInsertTagParser = System::getContainer()->get('contao.insert_tag.parser');
-
 			while($objEntries->next())
 			{
 				$objItem = new FeedItem();
